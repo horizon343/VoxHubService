@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using VoxHubService.Infrastructure.Interfaces;
 using VoxHubService.Infrastructure.Models.Vox;
+using VoxHubService.Infrastructure.Models.Voxel;
 
 namespace VoxHubService.Infrastructure.Parsing;
 
