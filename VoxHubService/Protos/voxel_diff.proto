@@ -1,0 +1,68 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "VoxelDiff.Grpc";
+
+package voxeldiff;
+
+service VersionApi {
+  rpc UploadVox (UploadVoxRequest) returns (UploadVoxResponse);
+  rpc CompareVersions (CompareVersionsRequest) returns (CompareVersionsResponse);
+  rpc CompareVersionsDetailed (CompareVersionsRequest) returns (CompareVersionsDetailedResponse);
+}
+
+message UploadVoxRequest {
+  string file_name = 1;
+  bytes data = 2;
+}
+
+message UploadVoxResponse {
+  string version_id = 1;
+}
+
+message CompareVersionsRequest {
+  string left_version_id = 1;
+  string right_version_id = 2;
+}
+
+message ChunkDiffDto {
+  int32 x = 1;
+  int32 y = 2;
+  int32 z = 3;
+  string change_type = 4;
+}
+
+message ModelDiffDto {
+  string left_version_id = 1;
+  string right_version_id = 2;
+  repeated ChunkDiffDto chunks = 3;
+}
+
+message VoxelDeltaDto {
+  string change_type = 1;
+  int32 x = 2;
+  int32 y = 3;
+  int32 z = 4;
+  int32 color_index = 5;
+}
+
+message VoxelChunkDiffDetailDto {
+  int32 chunk_x = 1;
+  int32 chunk_y = 2;
+  int32 chunk_z = 3;
+  string chunk_type = 4;
+  repeated VoxelDeltaDto voxels = 5;
+}
+
+message DetailedModelDiffDto {
+  string left_version_id = 1;
+  string right_version_id = 2;
+  repeated VoxelChunkDiffDetailDto chunks = 3;
+}
+
+message CompareVersionsResponse {
+  ModelDiffDto diff = 1;
+}
+
+message CompareVersionsDetailedResponse {
+  DetailedModelDiffDto diff = 1;
+}

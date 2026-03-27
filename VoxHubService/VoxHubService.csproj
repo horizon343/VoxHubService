@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Protos\" />
+        <Protobuf Include="Protos\voxel_diff.proto" GrpcServices="Server"/>
     </ItemGroup>
 
 </Project>
