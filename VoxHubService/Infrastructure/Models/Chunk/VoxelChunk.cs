@@ -2,4 +2,7 @@
 
 namespace VoxHubService.Infrastructure.Models.Chunk;
 
-public sealed record VoxelChunk(ChunkKey Key, IReadOnlyList<VoxelCell> Voxels);
+public sealed record VoxelChunk(
+    ChunkKey Key,
+    IReadOnlyList<VoxelCell> Voxels
+);

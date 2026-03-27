@@ -1,4 +1,4 @@
-﻿namespace VoxHubService.Infrastructure.Models.Diff;
+﻿namespace VoxHubService.Infrastructure.Models.DiffDetail;
 
 public sealed record DetailedModelDiff(
     Guid LeftVersionId,

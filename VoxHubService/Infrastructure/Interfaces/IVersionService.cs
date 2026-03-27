@@ -1,4 +1,5 @@
 ﻿using VoxHubService.Infrastructure.Models.Diff;
+using VoxHubService.Infrastructure.Models.DiffDetail;
 
 namespace VoxHubService.Infrastructure.Interfaces;
 

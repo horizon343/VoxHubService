@@ -2,4 +2,7 @@
 
 namespace VoxHubService.Infrastructure.Models.Snapshot;
 
-public sealed record ModelSnapshot(Guid VersionId, IReadOnlyList<ChunkState> Chunks);
+public sealed record ModelSnapshot(
+    Guid VersionId,
+    IReadOnlyList<ChunkState> Chunks
+);

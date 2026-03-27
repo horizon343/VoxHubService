@@ -2,6 +2,7 @@
 using VoxelDiff.Grpc;
 using VoxHubService.Infrastructure.Interfaces;
 using VoxHubService.Infrastructure.Models.Diff;
+using VoxHubService.Infrastructure.Models.DiffDetail;
 
 namespace VoxHubService.Services;
 

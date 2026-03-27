@@ -1,6 +1,7 @@
 ﻿using VoxHubService.Infrastructure.Interfaces;
 using VoxHubService.Infrastructure.Mapping;
 using VoxHubService.Infrastructure.Models.Diff;
+using VoxHubService.Infrastructure.Models.DiffDetail;
 using VoxHubService.Infrastructure.Models.Snapshot;
 using VoxHubService.Infrastructure.Snapshots;
 
