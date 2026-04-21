@@ -1,4 +1,4 @@
-﻿using VoxHubService.Domain;
+﻿using VoxHubService.Domain.Canonical;
 
 namespace VoxHubService.Interfaces;
 

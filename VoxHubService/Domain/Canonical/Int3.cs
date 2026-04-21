@@ -1,4 +1,4 @@
-﻿namespace VoxHubService.Domain;
+﻿namespace VoxHubService.Domain.Canonical;
 
 public readonly record struct Int3(
     int X,

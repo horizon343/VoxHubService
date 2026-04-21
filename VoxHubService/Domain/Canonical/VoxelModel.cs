@@ -1,4 +1,4 @@
-﻿namespace VoxHubService.Domain;
+﻿namespace VoxHubService.Domain.Canonical;
 
 public sealed class VoxelModel
 {
