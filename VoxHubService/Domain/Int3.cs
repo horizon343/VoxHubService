@@ -1,0 +1,7 @@
+﻿namespace VoxHubService.Domain;
+
+public readonly record struct Int3(
+    int X,
+    int Y,
+    int Z
+);
