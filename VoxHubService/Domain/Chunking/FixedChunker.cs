@@ -37,16 +37,15 @@ public static class FixedChunker
             var chunkVoxels = chunks[key];
             chunkVoxels.Sort(CompareVoxel);
 
-            result.Add(new ChunkSlice(
-                key,
-                ChunkBounds.FromKey(key, chunkSize),
-                chunkVoxels));
+            var bounds = ChunkBounds.FromKey(key, chunkSize);
+            var hash = ChunkHasher.Hash(key, bounds, chunkVoxels);
+
+            result.Add(new ChunkSlice(key, bounds, chunkVoxels, hash));
         }
 
         return result;
     }
 
-    // Если позже модель станет деревом, берём только листовые воксели.
     private static void CollectVoxels(ChunkNode chunk, List<Voxel> output)
     {
         if (chunk.Children.Count > 0)

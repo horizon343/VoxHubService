@@ -5,5 +5,6 @@ namespace VoxHubService.Domain.Chunking;
 public sealed record ChunkSlice(
     ChunkKey Key,
     ChunkBounds Bounds,
-    IReadOnlyList<Voxel> Voxels
+    IReadOnlyList<Voxel> Voxels,
+    string Hash
 );
