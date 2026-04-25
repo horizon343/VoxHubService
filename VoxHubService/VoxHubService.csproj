@@ -8,14 +8,16 @@
 
     <ItemGroup>
         <PackageReference Include="AWSSDK.S3" Version="4.0.22" />
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
+        <PackageReference Include="Google.Protobuf" Version="3.35.0-rc1" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.64.0"/>
+        <PackageReference Include="Grpc.Core" Version="2.46.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Protos\" />
-      <Folder Include="Services\" />
+        <Protobuf Include="Protos\SnapshotImportService.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>
