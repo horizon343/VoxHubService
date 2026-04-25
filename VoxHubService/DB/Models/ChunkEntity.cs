@@ -10,6 +10,7 @@ public sealed class ChunkEntity
     public int ChunkZ { get; set; }
 
     public string Hash { get; set; } = string.Empty;
+
     public string ObjectKey { get; set; } = string.Empty;
 
     public bool IsDeleted { get; set; }

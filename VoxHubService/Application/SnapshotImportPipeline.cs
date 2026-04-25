@@ -74,14 +74,6 @@ public sealed class SnapshotImportPipeline
             });
         }
 
-        // 5. snapshot metadata
-        _db.Snapshots.Add(new SnapshotEntity
-        {
-            Id = Guid.NewGuid(),
-            VersionId = versionId,
-            ObjectKey = $"models/{modelId}/snapshot" // просто маркер snapshot
-        });
-
         await _db.SaveChangesAsync(ct);
         Console.WriteLine("Saved to DB.");
 
