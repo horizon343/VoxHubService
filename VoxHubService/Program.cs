@@ -44,13 +44,21 @@ public class Program
         // ===== DOMAIN =====
         builder.Services.AddSingleton<IModelImporter, VoxModelImporter>();
         builder.Services.AddScoped<SnapshotImportPipeline>();
+        builder.Services.AddScoped<CommitImportPipeline>();
 
         // ===== GRPC =====
         builder.Services.AddGrpc();
 
         var app = builder.Build();
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<VoxelDbContext>();
+            db.Database.EnsureCreated();
+        }
+
         app.MapGrpcService<SnapshotImportGrpcService>();
+        app.MapGrpcService<CommitImportGrpcService>();
 
         app.Run();
     }
