@@ -19,6 +19,7 @@
     <ItemGroup>
         <Protobuf Include="Protos\SnapshotImportService.proto" GrpcServices="Server" />
         <Protobuf Include="Protos\CommitImportService.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\ModelRestoreService.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>

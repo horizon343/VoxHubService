@@ -45,6 +45,7 @@ public class Program
         builder.Services.AddSingleton<IModelImporter, VoxModelImporter>();
         builder.Services.AddScoped<SnapshotImportPipeline>();
         builder.Services.AddScoped<CommitImportPipeline>();
+        builder.Services.AddScoped<VersionRestorePipeline>();
 
         // ===== GRPC =====
         builder.Services.AddGrpc();
@@ -59,6 +60,7 @@ public class Program
 
         app.MapGrpcService<SnapshotImportGrpcService>();
         app.MapGrpcService<CommitImportGrpcService>();
+        app.MapGrpcService<ModelRestoreGrpcService>();
 
         app.Run();
     }
