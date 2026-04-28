@@ -9,8 +9,17 @@ public sealed class ModelQueryGrpcService(VoxelDbContext db) : ModelQueryService
 {
     public override async Task<ListModelsResponse> ListModels(ListModelsRequest request, ServerCallContext context)
     {
-        var models = await db.Models
-            .AsNoTracking()
+        var page = request.Page <= 0 ? 1 : request.Page;
+        var pageSize = request.PageSize <= 0 ? 100 : request.PageSize;
+
+        var query = db.Models.AsNoTracking();
+
+        var total = await query.CountAsync(context.CancellationToken);
+
+        var models = await query
+            .OrderBy(x => x.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(x => new ModelDto
             {
                 Id = x.Id.ToString(),
@@ -18,7 +27,11 @@ public sealed class ModelQueryGrpcService(VoxelDbContext db) : ModelQueryService
             })
             .ToListAsync(context.CancellationToken);
 
-        var response = new ListModelsResponse();
+        var response = new ListModelsResponse
+        {
+            Total = total
+        };
+
         response.Models.AddRange(models);
 
         return response;
