@@ -5,18 +5,11 @@ using VoxHubService.Grpc;
 
 namespace VoxHubService.Services;
 
-public sealed class ModelQueryGrpcService : ModelQueryService.ModelQueryServiceBase
+public sealed class ModelQueryGrpcService(VoxelDbContext db) : ModelQueryService.ModelQueryServiceBase
 {
-    private readonly VoxelDbContext _db;
-
-    public ModelQueryGrpcService(VoxelDbContext db)
-    {
-        _db = db;
-    }
-
     public override async Task<ListModelsResponse> ListModels(ListModelsRequest request, ServerCallContext context)
     {
-        var models = await _db.Models
+        var models = await db.Models
             .AsNoTracking()
             .Select(x => new ModelDto
             {

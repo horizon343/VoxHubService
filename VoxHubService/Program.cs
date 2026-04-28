@@ -62,6 +62,7 @@ public class Program
         app.MapGrpcService<CommitImportGrpcService>();
         app.MapGrpcService<ModelRestoreGrpcService>();
         app.MapGrpcService<ModelQueryGrpcService>();
+        app.MapGrpcService<VersionQueryGrpcService>();
 
         app.Run();
     }

@@ -21,6 +21,7 @@
         <Protobuf Include="Protos\CommitImportService.proto" GrpcServices="Server" />
         <Protobuf Include="Protos\ModelRestoreService.proto" GrpcServices="Server" />
         <Protobuf Include="Protos\ModelQueryService.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\VersionQueryService.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>
