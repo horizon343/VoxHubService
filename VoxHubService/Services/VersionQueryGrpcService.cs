@@ -7,8 +7,7 @@ namespace VoxHubService.Services;
 
 public sealed class VersionQueryGrpcService(VoxelDbContext db) : VersionQueryService.VersionQueryServiceBase
 {
-    public override async Task<ListVersionsResponse> ListVersions(ListVersionsRequest request,
-        ServerCallContext context)
+    public override async Task<ListVersionsResponse> ListVersions(ListVersionsRequest request, ServerCallContext context)
     {
         if (!Guid.TryParse(request.ModelId, out var modelId))
             throw new RpcException(new Status(StatusCode.InvalidArgument, "invalid model_id"));
