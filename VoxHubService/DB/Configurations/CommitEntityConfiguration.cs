@@ -11,7 +11,9 @@ public sealed class CommitEntityConfiguration : IEntityTypeConfiguration<CommitE
         e.ToTable("commits");
         e.HasKey(x => x.Id);
 
-        e.Property(x => x.Message).IsRequired();
+        e.Property(x => x.Message)
+            .HasMaxLength(2048)
+            .IsRequired();
         e.Property(x => x.CreatedAtUtc).IsRequired();
 
         e.HasOne<VersionEntity>()

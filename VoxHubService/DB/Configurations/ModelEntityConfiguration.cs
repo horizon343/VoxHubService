@@ -11,6 +11,8 @@ public sealed class ModelEntityConfiguration : IEntityTypeConfiguration<ModelEnt
         e.ToTable("models");
         e.HasKey(x => x.Id);
 
-        e.Property(x => x.Name).IsRequired();
+        e.Property(x => x.Name)
+            .HasMaxLength(2048)
+            .IsRequired();
     }
 }
