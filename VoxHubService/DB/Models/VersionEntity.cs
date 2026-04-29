@@ -7,4 +7,6 @@ public sealed class VersionEntity
     public Guid? ParentVersionId { get; set; }
 
     public VersionKind Kind { get; set; }
+
+    public CommitEntity? Commit { get; set; }
 }

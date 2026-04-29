@@ -19,9 +19,9 @@ public sealed class VersionEntityConfiguration : IEntityTypeConfiguration<Versio
             .HasForeignKey(x => x.ModelId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        e.HasOne<VersionEntity>()
-            .WithMany()
-            .HasForeignKey(x => x.ParentVersionId)
-            .OnDelete(DeleteBehavior.Restrict);
+        e.HasOne(x => x.Commit)
+            .WithOne()
+            .HasForeignKey<CommitEntity>(x => x.VersionId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
