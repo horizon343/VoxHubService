@@ -26,12 +26,10 @@ public sealed class VersionRestorePipeline
         {
             return new VoxelModel
             {
-                SchemaVersion = 1,
                 RootChunk = new ChunkNode
                 {
                     Origin = new Int3(0, 0, 0),
                     Size = new Int3(0, 0, 0),
-                    LodLevel = 1,
                     Children = Array.Empty<ChunkNode>(),
                     Voxels = Array.Empty<Voxel>()
                 }
@@ -54,12 +52,10 @@ public sealed class VersionRestorePipeline
 
         return new VoxelModel
         {
-            SchemaVersion = 1,
             RootChunk = new ChunkNode
             {
                 Origin = new Int3(minX, minY, minZ),
                 Size = new Int3(maxX - minX, maxY - minY, maxZ - minZ),
-                LodLevel = 1,
                 Children = ordered.Select(chunk => new ChunkNode
                 {
                     Origin = chunk.Bounds.Min,
@@ -67,7 +63,6 @@ public sealed class VersionRestorePipeline
                         chunk.Bounds.Max.X - chunk.Bounds.Min.X,
                         chunk.Bounds.Max.Y - chunk.Bounds.Min.Y,
                         chunk.Bounds.Max.Z - chunk.Bounds.Min.Z),
-                    LodLevel = 0,
                     Voxels = chunk.Voxels,
                     Children = Array.Empty<ChunkNode>()
                 }).ToArray(),

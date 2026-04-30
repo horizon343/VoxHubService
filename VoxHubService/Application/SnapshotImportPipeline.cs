@@ -27,7 +27,6 @@ public sealed class SnapshotImportPipeline
         // 1. parse + canonical
         var model = await _importer.ImportAsync(voxStream, ct);
         Console.WriteLine("Import successful.");
-        Console.WriteLine($"SchemaVersion: {model.SchemaVersion}");
         Console.WriteLine($"Root Size: {model.RootChunk.Size.X}, {model.RootChunk.Size.Y}, {model.RootChunk.Size.Z}");
         Console.WriteLine($"Voxels count: {model.RootChunk.Voxels.Count}");
 

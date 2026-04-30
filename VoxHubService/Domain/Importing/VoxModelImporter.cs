@@ -101,12 +101,10 @@ public sealed class VoxModelImporter : IModelImporter
 
         return Task.FromResult(new VoxelModel
         {
-            SchemaVersion = 1,
             RootChunk = new ChunkNode
             {
                 Origin = new Int3(0, 0, 0),
                 Size = new Int3(size!.Value.X, size.Value.Y, size.Value.Z),
-                LodLevel = 0,
                 Voxels = voxels,
                 Children = Array.Empty<ChunkNode>()
             }
