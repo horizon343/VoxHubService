@@ -3,6 +3,7 @@ using VoxHubService.DB;
 using VoxHubService.DB.Models;
 using VoxHubService.Domain.Canonical;
 using VoxHubService.Domain.Chunking;
+using VoxHubService.Domain.Serialization;
 using VoxHubService.Interfaces;
 
 namespace VoxHubService.Application;
@@ -117,11 +118,12 @@ public sealed class VersionRestorePipeline
                 }
 
                 await using var blob = await _storage.GetAsync(chunk.ObjectKey, ct);
-                var voxels = DeserializeChunk(blob);
+                var bounds = ChunkBounds.FromKey(key, chunkSize);
+                var voxels = ChunkBlobCodec.Deserialize(blob, bounds.Min);
 
                 state[key] = new ChunkSlice(
                     key,
-                    ChunkBounds.FromKey(key, chunkSize),
+                    bounds,
                     voxels,
                     chunk.Hash);
             }

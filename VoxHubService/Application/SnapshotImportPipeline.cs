@@ -1,6 +1,7 @@
 ﻿using VoxHubService.DB;
 using VoxHubService.DB.Models;
 using VoxHubService.Domain.Chunking;
+using VoxHubService.Domain.Serialization;
 using VoxHubService.Interfaces;
 
 namespace VoxHubService.Application;
@@ -56,7 +57,7 @@ public sealed class SnapshotImportPipeline
         {
             var objectKey = $"models/{modelId}/chunks/{chunk.Hash}.bin";
 
-            await using (var ms = new MemoryStream(SerializeChunk(chunk)))
+            await using (var ms = new MemoryStream(ChunkBlobCodec.Serialize(chunk)))
             {
                 await _storage.PutAsync(objectKey, ms, ct);
             }
