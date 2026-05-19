@@ -3,6 +3,7 @@ using VoxHubService.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using VoxHubService.DB.Models;
 using VoxHubService.Domain.Chunking;
+using VoxHubService.Domain.Serialization;
 
 namespace VoxHubService.Application;
 
@@ -77,7 +78,7 @@ public sealed class CommitImportPipeline
         {
             var objectKey = $"models/{modelId}/chunks/{chunk.Hash}.bin";
 
-            await using (var ms = new MemoryStream(SerializeChunk(chunk)))
+            await using (var ms = new MemoryStream(ChunkStorageCodec.Serialize(chunk)))
             {
                 await _storage.PutAsync(objectKey, ms, ct);
             }
@@ -159,24 +160,5 @@ public sealed class CommitImportPipeline
         }
 
         return state;
-    }
-
-    private static byte[] SerializeChunk(ChunkSlice chunk)
-    {
-        using var stream = new MemoryStream();
-        using var writer = new BinaryWriter(stream);
-
-        writer.Write(chunk.Voxels.Count);
-
-        foreach (var v in chunk.Voxels)
-        {
-            writer.Write(v.Position.X);
-            writer.Write(v.Position.Y);
-            writer.Write(v.Position.Z);
-            writer.Write(v.PaletteIndex);
-        }
-
-        writer.Flush();
-        return stream.ToArray();
     }
 }

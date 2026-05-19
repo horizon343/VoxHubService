@@ -3,8 +3,8 @@ using VoxHubService.DB;
 using VoxHubService.DB.Models;
 using VoxHubService.Domain.Canonical;
 using VoxHubService.Domain.Chunking;
-using VoxHubService.Domain.Serialization;
 using VoxHubService.Interfaces;
+using VoxHubService.Domain.Serialization;
 
 namespace VoxHubService.Application;
 
@@ -27,10 +27,12 @@ public sealed class VersionRestorePipeline
         {
             return new VoxelModel
             {
+                SchemaVersion = 1,
                 RootChunk = new ChunkNode
                 {
                     Origin = new Int3(0, 0, 0),
                     Size = new Int3(0, 0, 0),
+                    LodLevel = 1,
                     Children = Array.Empty<ChunkNode>(),
                     Voxels = Array.Empty<Voxel>()
                 }
@@ -53,10 +55,12 @@ public sealed class VersionRestorePipeline
 
         return new VoxelModel
         {
+            SchemaVersion = 1,
             RootChunk = new ChunkNode
             {
                 Origin = new Int3(minX, minY, minZ),
                 Size = new Int3(maxX - minX, maxY - minY, maxZ - minZ),
+                LodLevel = 1,
                 Children = ordered.Select(chunk => new ChunkNode
                 {
                     Origin = chunk.Bounds.Min,
@@ -64,6 +68,7 @@ public sealed class VersionRestorePipeline
                         chunk.Bounds.Max.X - chunk.Bounds.Min.X,
                         chunk.Bounds.Max.Y - chunk.Bounds.Min.Y,
                         chunk.Bounds.Max.Z - chunk.Bounds.Min.Z),
+                    LodLevel = 0,
                     Voxels = chunk.Voxels,
                     Children = Array.Empty<ChunkNode>()
                 }).ToArray(),
@@ -118,34 +123,16 @@ public sealed class VersionRestorePipeline
                 }
 
                 await using var blob = await _storage.GetAsync(chunk.ObjectKey, ct);
-                var bounds = ChunkBounds.FromKey(key, chunkSize);
-                var voxels = ChunkBlobCodec.Deserialize(blob, bounds.Min);
+                var voxels = ChunkStorageCodec.Deserialize(blob, key, chunkSize);
 
                 state[key] = new ChunkSlice(
                     key,
-                    bounds,
+                    ChunkBounds.FromKey(key, chunkSize),
                     voxels,
                     chunk.Hash);
             }
         }
 
         return state;
-    }
-
-    private static IReadOnlyList<Voxel> DeserializeChunk(Stream stream)
-    {
-        using var reader = new BinaryReader(stream);
-
-        var count = reader.ReadInt32();
-        var voxels = new Voxel[count];
-
-        for (var i = 0; i < count; i++)
-        {
-            voxels[i] = new Voxel(
-                new Int3(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32()),
-                reader.ReadByte());
-        }
-
-        return voxels;
     }
 }
