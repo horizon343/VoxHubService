@@ -4,6 +4,7 @@ using VoxHubService.DB.Models;
 using VoxHubService.Domain.Canonical;
 using VoxHubService.Domain.Chunking;
 using VoxHubService.Interfaces;
+using VoxHubService.Domain.Serialization;
 
 namespace VoxHubService.Application;
 
@@ -122,7 +123,7 @@ public sealed class VersionRestorePipeline
                 }
 
                 await using var blob = await _storage.GetAsync(chunk.ObjectKey, ct);
-                var voxels = DeserializeChunk(blob);
+                var voxels = ChunkStorageCodec.Deserialize(blob, key, chunkSize);
 
                 state[key] = new ChunkSlice(
                     key,
@@ -133,22 +134,5 @@ public sealed class VersionRestorePipeline
         }
 
         return state;
-    }
-
-    private static IReadOnlyList<Voxel> DeserializeChunk(Stream stream)
-    {
-        using var reader = new BinaryReader(stream);
-
-        var count = reader.ReadInt32();
-        var voxels = new Voxel[count];
-
-        for (var i = 0; i < count; i++)
-        {
-            voxels[i] = new Voxel(
-                new Int3(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32()),
-                reader.ReadByte());
-        }
-
-        return voxels;
     }
 }

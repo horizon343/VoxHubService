@@ -2,6 +2,7 @@
 using VoxHubService.DB.Models;
 using VoxHubService.Domain.Chunking;
 using VoxHubService.Interfaces;
+using VoxHubService.Domain.Serialization;
 
 namespace VoxHubService.Application;
 
@@ -56,8 +57,7 @@ public sealed class SnapshotImportPipeline
         foreach (var chunk in chunks)
         {
             var objectKey = $"models/{modelId}/chunks/{chunk.Hash}.bin";
-
-            await using (var ms = new MemoryStream(SerializeChunk(chunk)))
+            await using (var ms = new MemoryStream(ChunkStorageCodec.Serialize(chunk)))
             {
                 await _storage.PutAsync(objectKey, ms, ct);
             }
@@ -78,25 +78,5 @@ public sealed class SnapshotImportPipeline
         Console.WriteLine("Saved to DB.");
 
         return versionId;
-    }
-
-    // Минимальная сериализация: только voxels
-    private static byte[] SerializeChunk(ChunkSlice chunk)
-    {
-        using var stream = new MemoryStream();
-        using var writer = new BinaryWriter(stream);
-
-        writer.Write(chunk.Voxels.Count);
-
-        foreach (var v in chunk.Voxels)
-        {
-            writer.Write(v.Position.X);
-            writer.Write(v.Position.Y);
-            writer.Write(v.Position.Z);
-            writer.Write(v.PaletteIndex);
-        }
-
-        writer.Flush();
-        return stream.ToArray();
     }
 }
